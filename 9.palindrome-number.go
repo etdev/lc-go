@@ -1,18 +1,22 @@
 package main
 
-import "fmt"
-
+// Version without string conversion
 func isPalindrome(x int) bool {
-	xStr := fmt.Sprintf("%d", x)
-	return reverseStr(xStr) == xStr
-}
-
-func reverseStr(str string) string {
-	runes := []rune(str)
-
-	for i := 0; i < len(runes)/2; i++ {
-		runes[i], runes[len(runes)-1-i] = runes[len(runes)-1-i], runes[i]
+	if x < 0 {
+		return false
 	}
 
-	return string(runes)
+	x2 := x
+
+	y := 0
+	for {
+		if x2 <= 0 {
+			break
+		}
+
+		y = y*10 + (x2 % 10)
+		x2 /= 10
+	}
+
+	return x == y
 }
