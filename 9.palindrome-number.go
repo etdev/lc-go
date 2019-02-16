@@ -11,9 +11,7 @@ func reverseStr(str string) string {
 	runes := []rune(str)
 
 	for i := 0; i < len(runes)/2; i++ {
-		bak := runes[i]
-		runes[i] = runes[len(runes)-1-i]
-		runes[len(runes)-1-i] = bak
+		runes[i], runes[len(runes)-1-i] = runes[len(runes)-1-i], runes[i]
 	}
 
 	return string(runes)
