@@ -1,52 +1,21 @@
 package main
 
-type stack []rune
-
-func (s stack) push(chr rune) stack {
-	return append(s, chr)
-}
-
-func (s stack) pop() (stack, rune) {
-	l := len(s)
-	if l < 1 {
-		return s, ' '
-	}
-
-	return s[:l-1], s[l-1]
-}
-
 func isValid(str string) bool {
-	stk := stack{}
-	found := ' '
+	parens := map[rune]rune{')': '(', ']': '[', '}': '{'}
+	var stack []rune
 
-	for _, chr := range str {
-		if chr == '(' || chr == '[' || chr == '{' {
-			stk = stk.push(chr)
+	for _, char := range str {
+		if char == '(' || char == '[' || char == '{' {
+			stack = append(stack, char)
+			continue
 		}
 
-		if chr == ')' {
-			stk, found = stk.pop()
-			if found != '(' {
-				return false
-			}
-		}
-		if chr == ']' {
-			stk, found = stk.pop()
-			if found != '[' {
-				return false
-			}
-		}
-		if chr == '}' {
-			stk, found = stk.pop()
-			if found != '{' {
-				return false
-			}
+		if len(stack) > 0 && parens[char] == stack[len(stack)-1] {
+			stack = stack[:len(stack)-1]
+		} else {
+			return false
 		}
 	}
 
-	if len(stk) != 0 {
-		return false
-	}
-
-	return true
+	return len(stack) == 0
 }
